@@ -11,8 +11,8 @@ class Category(models.Model):
 
 
 class Book(models.Model):
-    user = models.ForeignKey(CustomUserModel, on_delete=models.CASCADE, related_name="books")
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name="books")
+    user_id = models.ForeignKey(CustomUserModel, on_delete=models.CASCADE, related_name="books")
+    category_id = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name="books")
     title = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)
     file = models.FileField(upload_to="book_files/")
