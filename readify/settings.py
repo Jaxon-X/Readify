@@ -1,6 +1,12 @@
 
-
+import os
 from pathlib import Path
+
+from django.conf.global_settings import AUTH_USER_MODEL
+from dotenv import load_dotenv
+load_dotenv()
+
+import users
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -10,7 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-1ix4$sb9+n28$-uo-66lsr7(gjglqn68r!v)w$ezjg6+gxw5a#'
+SECRET_KEY=os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -18,7 +24,23 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-# Application definition
+
+AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_REGION_NAME = "us-east-1"
+CLOUDFRONT_DOMAIN=os.getenv("CLOUDFRONT_DOMAIN")
+
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = "private"
+AWS_S3_CUSTOM_DOMAIN = CLOUDFRONT_DOMAIN
+AWS_S3_OBJECT_PARAMETERS = {
+    "ContentDisposition": "inline",
+}
+
+MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/"
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -30,7 +52,8 @@ INSTALLED_APPS = [
     'rest_framework',
 
     # custom app
-    'users'
+    'users',
+    'books'
 ]
 
 MIDDLEWARE = [
@@ -67,13 +90,17 @@ WSGI_APPLICATION = 'readify.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': os.getenv('DB_ENGINE'),
+        'NAME': os.getenv("DB_NAME"),
+        'USER': os.getenv("DB_USER"),
+        'PORT': os.getenv("DB_PORT"),
+        'PASSWORD':os.getenv("DB_PASSWORD"),
+        'HOST': os.getenv("DB_HOST"),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -93,6 +120,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+AUTH_USER_MODEL = "users.CustomUserModel"
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
