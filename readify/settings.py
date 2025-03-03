@@ -21,7 +21,7 @@ SECRET_KEY=os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["https://readify-production-f251.up.railway.app"]
+ALLOWED_HOSTS = ["readify-production-f251.up.railway.app"]
 
 
 
