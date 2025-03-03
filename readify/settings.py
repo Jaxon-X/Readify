@@ -21,7 +21,7 @@ SECRET_KEY=os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["readify-production-f251.up.railway.app"]
+ALLOWED_HOSTS = ["readify-production-f251.up.railway.app", "127.0.0.1"]
 
 
 
@@ -50,11 +50,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'drf_spectacular',
 
     # custom app
     'users',
     'books'
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS" : "drf_spectacular.openapi.AutoSchema",
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -119,6 +124,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+STATIC_URL = "/static/"
+
 
 
 AUTH_USER_MODEL = "users.CustomUserModel"
