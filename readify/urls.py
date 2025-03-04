@@ -10,6 +10,7 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
     path('api/lib/', include("books.urls")),
+    path("api/users/", include('users.urls')),
 
 ]
 

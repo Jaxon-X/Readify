@@ -1,6 +1,6 @@
 from django.db import models
 
-from users.models import CustomUserModel
+from users.models import CustomUser
 
 class Category(models.Model):
     name = models.CharField(max_length=255, unique=True)
@@ -11,7 +11,7 @@ class Category(models.Model):
 
 
 class Book(models.Model):
-    user_id = models.ForeignKey(CustomUserModel, on_delete=models.CASCADE, related_name="books")
+    user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="books")
     category_id = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name="books")
     title = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)

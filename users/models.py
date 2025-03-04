@@ -2,11 +2,12 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-class CustomUserModel(AbstractUser):
+class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ['username', 'password']
+
 
     def __str__(self):
         return self.username
